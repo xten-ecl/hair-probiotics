@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a1a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>모발유산균 판매 현황 | ECL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --bg-card: #ffffff;
+    --bg-sub: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #888885;
+    --line: #e5e2d8;
+    --line-strong: #1a1a1a;
+    --accent: #c8472b;
+    --accent-warm: #d9442a;
+    --accent-soft: #f4ddd5;
+    --green: #3a6b46;
+    --green-soft: #e1ebe2;
+    --gold: #b08838;
+    --gold-soft: #f3ead3;
+    --blue: #2c5282;
+    --blue-soft: #e2ecf6;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    padding: calc(20px + var(--safe-top)) 16px calc(40px + var(--safe-bottom));
+    min-height: 100vh;
+    overscroll-behavior-y: contain;
+  }
+
+  .wrap { max-width: 640px; margin: 0 auto; }
+
+  /* ===== Header ===== */
+  header {
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .header-text { flex: 1; min-width: 0; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Gowun Batang', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 10px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ===== Settings Button ===== */
+  .settings-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+    font-size: 16px;
+  }
+  .settings-btn:hover, .settings-btn:active { background: var(--bg-card); border-color: var(--ink); }
+
+  /* ===== Sync Status Indicator ===== */
+  .sync-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 8px;
+    letter-spacing: 0.03em;
+  }
+
+  .sync-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ink-mute);
+    flex-shrink: 0;
+  }
+  .sync-status.connected .sync-dot { background: var(--green); animation: pulse 2s ease-in-out infinite; }
+  .sync-status.syncing .sync-dot { background: var(--gold); animation: pulse 0.8s ease-in-out infinite; }
+  .sync-status.error .sync-dot { background: var(--accent); }
+  .sync-status.local .sync-dot { background: var(--ink-mute); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ===== Modal ===== */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 16px;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .modal-backdrop.show { display: flex; }
+
+  .modal {
+    background: var(--bg);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+  }
+
+  .modal h2 {
+    font-family: 'Gowun Batang', serif;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .modal .modal-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    word-break: keep-all;
+  }
+
+  .modal-field {
+    margin-bottom: 16px;
+  }
+
+  .modal-field label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .modal-field input[type="text"],
+  .modal-field input[type="url"] {
+    width: 100%;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    padding: 10px 12px;
+    outline: none;
+    border-radius: 3px;
+    transition: border-color 0.15s ease;
+    word-break: break-all;
+  }
+  .modal-field input:focus { border-color: var(--ink); }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 13px;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    flex: 1;
+    min-width: 100px;
+  }
+  .btn:hover, .btn:active { background: var(--ink); color: var(--bg-card); border-color: var(--ink); }
+  .btn.primary { background: var(--ink); color: var(--bg-card); border-color: var(--ink); }
+  .btn.primary:hover, .btn.primary:active { background: var(--accent); border-color: var(--accent); }
+  .btn.ghost { background: transparent; border-color: var(--line); }
+
+  .modal-help {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: var(--bg-sub);
+    border-left: 3px solid var(--gold);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    border-radius: 2px;
+  }
+
+  .modal-help strong { color: var(--ink); font-weight: 600; }
+
+  /* ===== Section ===== */
+  .section { margin-bottom: 36px; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-title {
+    font-family: 'Gowun Batang', serif;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .section-hint {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-left: auto;
+  }
+
+  /* ===== Stat Cards ===== */
+  .stat-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 72px;
+    border-radius: 2px;
+    transition: border-color 0.15s ease;
+  }
+
+  .stat-card:focus-within { border-color: var(--ink); }
+  .stat-card.accent { background: var(--accent-soft); border-color: rgba(200,71,43,0.3); }
+  .stat-card.green  { background: var(--green-soft);  border-color: rgba(58,107,70,0.25); }
+  .stat-card.gold   { background: var(--gold-soft);   border-color: rgba(176,136,56,0.3); }
+  .stat-card.blue   { background: var(--blue-soft);   border-color: rgba(44,82,130,0.25); }
+
+  .stat-left { flex: 1; min-width: 0; }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    word-break: keep-all;
+  }
+
+  .stat-foot {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+  }
+
+  .stat-input {
+    width: 130px;
+    border: none;
+    background: rgba(255,255,255,0.5);
+    font-family: 'Gowun Batang', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    padding: 8px 12px;
+    line-height: 1.1;
+    outline: none;
+    letter-spacing: -0.02em;
+    text-align: right;
+    border-radius: 2px;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    transition: background 0.15s ease;
+  }
+  .stat-input::-webkit-outer-spin-button,
+  .stat-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .stat-input:focus {
+    background: #fffbf0;
+    color: var(--accent);
+  }
+  .stat-card.accent .stat-input { background: rgba(255,255,255,0.6); }
+
+  /* ===== Hero Stock ===== */
+  .hero-stock {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #d9442a 0%, #b8331f 100%);
+    color: #ffffff;
+    padding: 26px 22px 24px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 8px 28px rgba(217,68,42,0.28), 0 2px 4px rgba(0,0,0,0.06);
+  }
+
+  .hero-stock::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    pointer-events: none;
+  }
+  .hero-stock::after {
+    content: '';
+    position: absolute;
+    bottom: -90px;
+    left: 20%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  .hero-stock-inner { position: relative; z-index: 1; }
+
+  .hero-stock-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .hero-stock-value {
+    font-family: 'Gowun Batang', serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+  }
+
+  .hero-stock-value .unit {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    margin-left: 6px;
+    letter-spacing: 0;
+  }
+
+  .hero-stock-formula {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 14px;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+
+  .hero-stock-decor {
+    position: absolute;
+    top: 22px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.4);
+    text-align: right;
+    line-height: 1.4;
+    z-index: 1;
+  }
+
+  /* ===== Pills ===== */
+  .pill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
+
+  .pill {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    border-radius: 2px;
+  }
+
+  .pill-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pill-value {
+    font-family: 'Gowun Batang', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .pill-value .unit {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    margin-left: 3px;
+  }
+
+  /* ===== Proposal Cards ===== */
+  .proposal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .proposal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--ink-mute);
+    border-radius: 2px;
+    padding: 14px 14px 12px;
+    transition: border-color 0.15s ease;
+  }
+
+  .proposal-card[data-status="진행중"]   { border-left-color: #d4a017; background: #fffcf0; }
+  .proposal-card[data-status="제안완료"] { border-left-color: var(--blue); background: #f3f7fc; }
+  .proposal-card[data-status="확정"]     { border-left-color: var(--green); background: #f1f7f2; }
+  .proposal-card[data-status="보류"]     { border-left-color: var(--ink-mute); background: #f6f4ef; }
+  .proposal-card[data-status="거절"]     { border-left-color: var(--accent); background: #fdf2ed; }
+  .proposal-card[data-status="미제안"]   { border-left-color: #d4d0c4; }
+
+  .pc-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    background: var(--bg-sub);
+    padding: 3px 7px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .pc-name {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+    min-width: 0;
+    word-break: keep-all;
+    line-height: 1.3;
+  }
+
+  .pc-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .pc-row:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .pc-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .pc-val input,
+  .pc-val select,
+  .pc-val textarea {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 6px 8px;
+    outline: none;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    min-height: 32px;
+    resize: none;
+    line-height: 1.45;
+  }
+
+  .pc-val input:focus,
+  .pc-val select:focus,
+  .pc-val textarea:focus {
+    background: #fffbf0;
+    border-color: var(--line);
+  }
+
+  .pc-val input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+    max-width: 110px;
+  }
+  .pc-val input[type="number"]::-webkit-outer-spin-button,
+  .pc-val input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .pc-val textarea { min-height: 40px; }
+
+  .pc-val select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-weight: 500;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 28px;
+  }
+
+  .proposal-card[data-status="진행중"] .pc-val select   { color: #b88a0e; font-weight: 600; }
+  .proposal-card[data-status="제안완료"] .pc-val select { color: var(--blue); font-weight: 600; }
+  .proposal-card[data-status="확정"] .pc-val select     { color: var(--green); font-weight: 600; }
+  .proposal-card[data-status="거절"] .pc-val select     { color: var(--accent); font-weight: 600; }
+
+  /* ===== Toast ===== */
+  .save-indicator {
+    position: fixed;
+    bottom: calc(20px + var(--safe-bottom));
+    left: 50%;
+    transform: translate(-50%, 20px);
+    background: var(--ink);
+    color: var(--bg-card);
+    padding: 10px 18px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    border-radius: 24px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .save-indicator.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .save-indicator.error { background: var(--accent); }
+
+  /* ===== Footer ===== */
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+
+  /* ===== Tablet/Desktop ===== */
+  @media (min-width: 720px) {
+    body { padding: 32px 24px 64px; font-size: 14px; }
+    .wrap { max-width: 760px; }
+    h1 { font-size: 34px; }
+    .section-title { font-size: 22px; }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .hero-stock-value { font-size: 68px; }
+    .hero-stock { padding: 32px 28px; }
+    .pill-grid { grid-template-columns: repeat(4, 1fr); }
+    .pc-row { grid-template-columns: 90px 1fr; }
+  }
+
+  @media (hover: none) {
+    .pc-val input:active,
+    .pc-val select:active,
+    .pc-val textarea:active {
+      background: #fffbf0;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="header-text">
+      <div class="eyebrow">ECL · 주식회사 엑스퍼트케어링크</div>
+      <h1>모발유산균 판매 현황</h1>
+      <div class="sub">Hair Probiotics Sales Dashboard</div>
+      <div class="sync-status" id="syncStatus">
+        <span class="sync-dot"></span>
+        <span id="syncText">초기화 중...</span>
+      </div>
+    </div>
+    <button class="settings-btn" id="settingsBtn" aria-label="설정">⚙</button>
+  </header>
+
+  <section class="section">
+    <div class="section-label">
+      <span class="section-title">입고 및 약국 입점</span>
+      <span class="section-hint">탭하여 입력</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card accent">
+        <div class="stat-left">
+          <div class="stat-label">총 입고수량</div>
+          <div class="stat-foot">TOTAL · 개</div>
+        </div>
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="stat-input" data-key="total_stock" placeholder="0">
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-left">
+          <div class="stat-label">약국 입점 거래처 수</div>
+          <div class="stat-foot">PHARMACIES · 곳</div>
+        </div>
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="stat-input" data-key="pharmacy_count" placeholder="0">
+      </div>
+
+      <div class="stat-card green">
+        <div class="stat-left">
+          <div class="stat-label">약국 총 입점수량 (결제금액 기준)</div>
+          <div class="stat-foot">PAID · 개</div>
+        </div>
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="stat-input" data-key="paid_qty" placeholder="0">
+      </div>
+
+      <div class="stat-card gold">
+        <div class="stat-left">
+          <div class="stat-label">약국 반품 예상 수량 (결제금액 기준)</div>
+          <div class="stat-foot">RETURN · 개</div>
+        </div>
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="stat-input" data-key="return_qty" placeholder="0">
+      </div>
+
+      <div class="stat-card blue">
+        <div class="stat-left">
+          <div class="stat-label">약국 반품 예상 금액</div>
+          <div class="stat-foot">RETURN · 원</div>
+        </div>
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="stat-input" data-key="return_amount" placeholder="0">
+      </div>
+    </div>
+
+    <div class="hero-stock">
+      <div class="hero-stock-inner">
+        <div class="hero-stock-label">현재 남은 재고</div>
+        <div class="hero-stock-value" id="currentStock">— <span class="unit">개</span></div>
+        <div class="hero-stock-formula">총 입고수량 − 약국 총 입점수량 + 약국 반품 예상 수량 − 판매 제안 실제 판매 합계</div>
+      </div>
+      <div class="hero-stock-decor" aria-hidden="true">STOCK<br>REMAINING</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">
+      <span class="section-title">판매 제안 현황</span>
+      <span class="section-hint">탭하여 편집</span>
+    </div>
+
+    <div class="pill-grid">
+      <div class="pill">
+        <div class="pill-label">전체</div>
+        <div class="pill-value" id="totalProposals">— <span class="unit">곳</span></div>
+      </div>
+      <div class="pill">
+        <div class="pill-label">진행중</div>
+        <div class="pill-value" id="inProgressCount">— <span class="unit">곳</span></div>
+      </div>
+      <div class="pill">
+        <div class="pill-label">확정</div>
+        <div class="pill-value" id="confirmedCount">— <span class="unit">곳</span></div>
+      </div>
+      <div class="pill">
+        <div class="pill-label">제안완료</div>
+        <div class="pill-value" id="proposedCount">— <span class="unit">곳</span></div>
+      </div>
+    </div>
+
+    <div class="proposal-list" id="proposalList"></div>
+  </section>
+
+  <footer>
+    <div>ECL · HAIR PROBIOTICS</div>
+    <div>INTERNAL SALES TRACKING</div>
+    <div id="updateStamp" style="margin-top:6px;">— UPDATED —</div>
+  </footer>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>구글 시트 동기화 설정</h2>
+    <div class="modal-desc">
+      구글 시트 Apps Script 웹앱 URL을 입력하면 PC와 모바일이 자동 동기화됩니다.
+      비워두면 이 기기에만 저장됩니다.
+    </div>
+
+    <div class="modal-field">
+      <label>Apps Script 웹앱 URL</label>
+      <input type="url" id="apiUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="modalCloseBtn">취소</button>
+      <button class="btn" id="modalDisconnectBtn">연결 해제</button>
+      <button class="btn primary" id="modalSaveBtn">저장 및 연결</button>
+    </div>
+
+    <div class="modal-help">
+      <strong>📋 설정 방법</strong><br>
+      1. 새 구글 시트 생성 → <strong>확장 프로그램 → Apps Script</strong><br>
+      2. 안내받은 코드(.gs 파일) 붙여넣기 → 저장<br>
+      3. <strong>배포 → 새 배포 → 웹앱</strong> 선택<br>
+      4. 액세스: <strong>모든 사용자</strong>, 실행: <strong>나</strong><br>
+      5. 배포 후 받은 URL을 위에 붙여넣기
+    </div>
+  </div>
+</div>
+
+<div class="save-indicator" id="saveIndicator">✓ 저장됨</div>
+
+<script>
+  // ===== Config =====
+  const LOCAL_KEY = 'ecl_hair_probiotics_v2';
+  const API_URL_KEY = 'ecl_apps_script_url';
+  const SAVE_DEBOUNCE = 1200; // ms
+
+  // ===== Data =====
+  const proposalList = [
+    { id: 'manman',        name: '만만마켓 본사' },
+    { id: 'sodomall',      name: '소도몰 본사' },
+    { id: 'kookmin',       name: '우리동네 국민상회 본사' },
+    { id: 'enrich',        name: '인리치 아카데미 공동구매' },
+    { id: 'smartstore',    name: '개인사업자 스마트스토어' },
+    { id: 'chingu',        name: '친구유통' },
+    { id: 'pharmacist_inf',name: '약사 인플루언서' },
+    { id: 'christian',     name: '기독교 쇼핑몰 (요섭)' },
+    { id: 'drmorak',       name: '닥터모락' },
+    { id: 'parkhair',      name: '박승철 헤어스튜디오' },
+    { id: 'kbbank',        name: '국민은행 직원 폐쇄몰' },
+    { id: 'seoulmetro',    name: '서울지하철 노조 폐쇄몰' },
+    { id: 'lafiesta',      name: '라피에스타약국' },
+    { id: 'dailypharm',    name: '데일리팜 약사분회 콘테스트' },
+    { id: 'youtuber',      name: '탈모 유튜버' },
+    { id: 'cafe',          name: '탈모 까페' },
+    { id: 'scalp',         name: '두피 클리닉' },
+    { id: 'etc',           name: '기타 폐쇄몰 · 도매몰' },
+  ];
+
+  const statusOptions = ['미제안', '제안완료', '진행중', '확정', '보류', '거절'];
+
+  let state = { stats: {}, proposals: {} };
+  let apiUrl = localStorage.getItem(API_URL_KEY) || '';
+  let saveTimer = null;
+  let isLoading = false;
+
+  // ===== Storage (Local) =====
+  function loadLocal() {
+    try {
+      const raw = localStorage.getItem(LOCAL_KEY);
+      return raw ? JSON.parse(raw) : { stats: {}, proposals: {} };
+    } catch (e) {
+      return { stats: {}, proposals: {} };
+    }
+  }
+  function saveLocal() {
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(state));
+  }
+
+  // ===== Storage (Cloud - Google Sheets) =====
+  async function loadCloud() {
+    if (!apiUrl) return null;
+    setSyncStatus('syncing', '시트에서 불러오는 중...');
+    try {
+      const res = await fetch(apiUrl + '?_=' + Date.now(), {
+        method: 'GET',
+        redirect: 'follow',
+      });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error || '서버 오류');
+      setSyncStatus('connected', '시트 동기화 활성');
+      return result.data;
+    } catch (err) {
+      console.error('Cloud load error:', err);
+      setSyncStatus('error', '동기화 실패 · 로컬 사용 중');
+      return null;
+    }
+  }
+
+  async function saveCloud() {
+    if (!apiUrl) return;
+    setSyncStatus('syncing', '시트에 저장 중...');
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        // text/plain으로 보내야 CORS preflight를 회피할 수 있음
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ data: state }),
+        redirect: 'follow',
+      });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error || '저장 실패');
+      setSyncStatus('connected', '시트 동기화 활성');
+      flashSaved('✓ 시트에 저장됨');
+    } catch (err) {
+      console.error('Cloud save error:', err);
+      setSyncStatus('error', '시트 저장 실패');
+      flashSaved('⚠ 시트 저장 실패 (로컬 보관됨)', true);
+    }
+  }
+
+  // ===== Sync orchestration =====
+  function scheduleSave() {
+    saveLocal(); // 로컬 즉시 저장 (오프라인 대비)
+    if (!apiUrl) {
+      flashSaved('✓ 로컬 저장됨');
+      return;
+    }
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveCloud, SAVE_DEBOUNCE);
+  }
+
+  async function initSync() {
+    if (apiUrl) {
+      const cloudData = await loadCloud();
+      if (cloudData) {
+        // 클라우드 데이터가 있으면 그것을 우선 사용
+        state = {
+          stats: cloudData.stats || {},
+          proposals: cloudData.proposals || {},
+        };
+        saveLocal();
+      } else {
+        // 클라우드 실패 시 로컬 데이터 사용
+        state = loadLocal();
+      }
+    } else {
+      state = loadLocal();
+      setSyncStatus('local', '로컬 저장 모드 · ⚙ 클릭해 동기화');
+    }
+    isLoading = true;
+    renderStats();
+    renderProposals();
+    updateSummaries();
+    updateProposalSummary();
+    isLoading = false;
+  }
+
+  // ===== Sync UI =====
+  function setSyncStatus(kind, text) {
+    const el = document.getElementById('syncStatus');
+    el.classList.remove('connected', 'syncing', 'error', 'local');
+    el.classList.add(kind);
+    document.getElementById('syncText').textContent = text;
+  }
+
+  // ===== Format =====
+  function fmt(n) {
+    if (n == null || n === '' || isNaN(n)) return '—';
+    return Number(n).toLocaleString('ko-KR');
+  }
+
+  // ===== Stats render =====
+  function renderStats() {
+    document.querySelectorAll('.stat-input').forEach(input => {
+      const key = input.dataset.key;
+      const val = state.stats[key];
+      input.value = (val != null && val !== '') ? val : '';
+
+      // 이벤트는 한 번만 바인딩
+      if (!input.dataset.bound) {
+        input.dataset.bound = '1';
+        input.addEventListener('input', () => {
+          if (isLoading) return;
+          state.stats[key] = input.value === '' ? '' : Number(input.value);
+          updateSummaries();
+          scheduleSave();
+        });
+      }
+    });
+  }
+
+  function updateSummaries() {
+    const total = Number(state.stats.total_stock) || 0;
+    const paid  = Number(state.stats.paid_qty) || 0;
+    const ret   = Number(state.stats.return_qty) || 0;
+
+    let totalSales = 0;
+    Object.values(state.proposals || {}).forEach(p => {
+      const s = Number(p.sales);
+      if (!isNaN(s)) totalSales += s;
+    });
+
+    const remaining = total - paid + ret - totalSales;
+    document.getElementById('currentStock').innerHTML =
+      fmt(remaining) + ' <span class="unit">개</span>';
+  }
+
+  // ===== Proposals render =====
+  function renderProposals() {
+    const list = document.getElementById('proposalList');
+    list.innerHTML = '';
+
+    proposalList.forEach((p, idx) => {
+      const saved = state.proposals[p.id] || {};
+      const card = document.createElement('div');
+      card.className = 'proposal-card';
+      card.dataset.status = saved.status || '미제안';
+
+      card.innerHTML = `
+        <div class="pc-top">
+          <span class="pc-num">${String(idx + 1).padStart(2, '0')}</span>
+          <span class="pc-name">${p.name}</span>
+        </div>
+        <div class="pc-row">
+          <div class="pc-key">담당자</div>
+          <div class="pc-val"><input type="text" data-id="${p.id}" data-field="contact" placeholder="담당자" value="${escapeHtml(saved.contact || '')}"></div>
+        </div>
+        <div class="pc-row">
+          <div class="pc-key">현황</div>
+          <div class="pc-val">
+            <select data-id="${p.id}" data-field="status">
+              ${statusOptions.map(s => `<option value="${s}" ${saved.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="pc-row">
+          <div class="pc-key">실제 판매</div>
+          <div class="pc-val"><input type="number" inputmode="numeric" pattern="[0-9]*" data-id="${p.id}" data-field="sales" placeholder="0" value="${saved.sales != null ? saved.sales : ''}"></div>
+        </div>
+        <div class="pc-row">
+          <div class="pc-key">비고</div>
+          <div class="pc-val"><textarea data-id="${p.id}" data-field="note" placeholder="진행 상황 메모">${escapeHtml(saved.note || '')}</textarea></div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+
+    list.querySelectorAll('input, textarea, select').forEach(el => {
+      const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(evt, () => {
+        if (isLoading) return;
+        const id = el.dataset.id;
+        const field = el.dataset.field;
+        if (!state.proposals[id]) state.proposals[id] = {};
+        if (field === 'sales') {
+          state.proposals[id][field] = el.value === '' ? '' : Number(el.value);
+        } else {
+          state.proposals[id][field] = el.value;
+        }
+        if (field === 'status') {
+          el.closest('.proposal-card').dataset.status = el.value;
+        }
+        updateProposalSummary();
+        updateSummaries();
+        scheduleSave();
+      });
+
+      if (el.tagName === 'TEXTAREA') {
+        autoResize(el);
+        el.addEventListener('input', () => autoResize(el));
+      }
+    });
+  }
+
+  function autoResize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.max(40, textarea.scrollHeight) + 'px';
+  }
+
+  function updateProposalSummary() {
+    const total = proposalList.length;
+    let inProgress = 0, confirmed = 0, proposed = 0;
+    proposalList.forEach(p => {
+      const s = (state.proposals[p.id] || {}).status;
+      if (s === '진행중') inProgress++;
+      else if (s === '확정') confirmed++;
+      else if (s === '제안완료') proposed++;
+    });
+    document.getElementById('totalProposals').innerHTML  = total + ' <span class="unit">곳</span>';
+    document.getElementById('inProgressCount').innerHTML = inProgress + ' <span class="unit">곳</span>';
+    document.getElementById('confirmedCount').innerHTML  = confirmed + ' <span class="unit">곳</span>';
+    document.getElementById('proposedCount').innerHTML   = proposed + ' <span class="unit">곳</span>';
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+
+  // ===== Toast =====
+  let toastTimer;
+  function flashSaved(msg, isError) {
+    const ind = document.getElementById('saveIndicator');
+    ind.textContent = msg || '✓ 저장됨';
+    ind.classList.toggle('error', !!isError);
+    ind.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => ind.classList.remove('show'), 1600);
+    document.getElementById('updateStamp').textContent = 'UPDATED · ' + nowStamp();
+  }
+
+  function nowStamp() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  // ===== Modal =====
+  const modal = document.getElementById('modal');
+  const apiUrlInput = document.getElementById('apiUrlInput');
+
+  document.getElementById('settingsBtn').addEventListener('click', () => {
+    apiUrlInput.value = apiUrl;
+    modal.classList.add('show');
+  });
+  document.getElementById('modalCloseBtn').addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('show');
+  });
+
+  document.getElementById('modalSaveBtn').addEventListener('click', async () => {
+    const newUrl = apiUrlInput.value.trim();
+    if (!newUrl) {
+      alert('URL을 입력해주세요. 비우려면 "연결 해제"를 누르세요.');
+      return;
+    }
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(newUrl)) {
+      if (!confirm('URL 형식이 일반적인 Apps Script 웹앱 형태가 아닙니다.\n그래도 진행하시겠습니까?')) return;
+    }
+    apiUrl = newUrl;
+    localStorage.setItem(API_URL_KEY, newUrl);
+    modal.classList.remove('show');
+    // 연결 후 클라우드 데이터를 불러옴
+    await initSync();
+  });
+
+  document.getElementById('modalDisconnectBtn').addEventListener('click', () => {
+    if (!confirm('구글 시트 연결을 해제하시겠습니까?\n이후 데이터는 이 기기에만 저장됩니다.')) return;
+    apiUrl = '';
+    localStorage.removeItem(API_URL_KEY);
+    apiUrlInput.value = '';
+    modal.classList.remove('show');
+    setSyncStatus('local', '로컬 저장 모드 · ⚙ 클릭해 동기화');
+  });
+
+  // ===== Init =====
+  (async function init() {
+    document.getElementById('updateStamp').textContent = 'UPDATED · ' + nowStamp();
+    await initSync();
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.pc-val textarea').forEach(autoResize);
+    });
+
+    // 페이지에 포커스가 돌아올 때 클라우드 데이터 다시 불러오기 (PC↔모바일 동기화)
+    window.addEventListener('focus', async () => {
+      if (!apiUrl) return;
+      const cloudData = await loadCloud();
+      if (cloudData) {
+        state = {
+          stats: cloudData.stats || {},
+          proposals: cloudData.proposals || {},
+        };
+        saveLocal();
+        isLoading = true;
+        renderStats();
+        renderProposals();
+        updateSummaries();
+        updateProposalSummary();
+        isLoading = false;
+      }
+    });
+  })();
+</script>
+</body>
+</html>
